@@ -55,4 +55,15 @@ contract TemplateCrowdsale is usingConsts, MainCrowdsale
         isFinalized = true;
     }
     //#endif
+
+    //#if defined(D_MIN_VALUE_WEI) && D_MIN_VALUE_WEI != 0
+    /**
+     * @dev override purchase validation to add extra value logic.
+     * @return true if sended more than minimal value
+     */
+    function validPurchase() internal view returns (bool) {
+        bool minValue = msg.value >= D_MIN_VALUE_WEI;
+        return minValue && super.validPurchase();
+    }
+    //#endif
 }
